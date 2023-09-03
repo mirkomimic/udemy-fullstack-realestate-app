@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="create">
+  <form @submit.prevent="update">
     <div>
       <div>
         <label>Beds</label>
@@ -50,7 +50,7 @@
       </div>
 
       <div>
-        <button type="submit">Create</button>
+        <button type="submit">Edit</button>
       </div>
     </div>
   </form>
@@ -61,20 +61,23 @@
 // import { reactive } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 // ref is for non-objects
-// reactive for big objects
+// reactive for objects
 // useForm ili reactive
+const props = defineProps({
+  listing: Object,
+})
 const form = useForm({
-  beds: 0,
-  baths: 0,
-  area: 0,
-  city: null,
-  street: null,
-  code: null,
-  street_nr: null,
-  price: 0,
+  beds: props.listing.beds,
+  baths: props.listing.baths,
+  area: props.listing.area,
+  city: props.listing.city,
+  street: props.listing.street,
+  code: props.listing.code,
+  street_nr: props.listing.street_nr,
+  price: props.listing.price,
 })
 
-const create = () => form.post('/listing');
+const update = () => form.put(`/listing/${props.listing.id}`);
 </script>
 
 <style scoped>
