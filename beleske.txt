@@ -1,0 +1,3 @@
+- za nazivanje ruta
+https://github.com/tighten/ziggy
+composer require tightenco/ziggy
