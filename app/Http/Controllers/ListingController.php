@@ -41,7 +41,7 @@ class ListingController extends Controller
         'city' => 'required',
         'code' => 'required',
         'street' => 'required',
-        'street_nr' => 'required|min:1|max:1000',
+        'street_nr' => 'required',
         'price' => 'required|integer|min:1|max:20000000',
       ])
     );

@@ -10,3 +10,7 @@ npx tailwindcss init -p
 - tailwind forms
 https://github.com/tailwindlabs/tailwindcss-forms
 npm install -D @tailwindcss/forms
+
+- progress bar
+npm install @inertiajs/progress
+https://github.com/inertiajs/progress
