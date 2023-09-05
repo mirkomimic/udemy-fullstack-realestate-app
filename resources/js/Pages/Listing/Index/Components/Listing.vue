@@ -3,14 +3,14 @@
     <div>
       <!-- ziggy rute -->
       <Link :href="route('listing.show', { listing: listing.id })">
-      <div class="flex items-center gap-1">
-        <Price :price="listing.price" class="text-2xl font-bold" />
-        <div class="text-xs text-gray-50">
-          <Price :price="monthlyPayment" /> pm
+        <div class="flex items-center gap-1">
+          <Price :price="listing.price" class="text-2xl font-bold" />
+          <div class="text-xs text-gray-50">
+            <Price :price="monthlyPayment" /> pm
+          </div>
         </div>
-      </div>
-      <ListingSpace :listing="listing" class="text-lg" />
-      <ListingAddress :listing="listing" class="text-gray-500" />
+        <ListingSpace :listing="listing" class="text-lg" />
+        <ListingAddress :listing="listing" class="text-gray-500" />
       </Link>
     </div>
     <div>
@@ -35,6 +35,5 @@ const props = defineProps({
 })
 
 const { monthlyPayment } = useMonthlyPayment(props.listing.price, 2.5, 25)
-
 
 </script>
