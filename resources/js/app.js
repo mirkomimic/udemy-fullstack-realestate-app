@@ -8,6 +8,7 @@ import { ZiggyVue } from "ziggy";
 import '../css/app.css';
 import { InertiaProgress } from "@inertiajs/progress";
 
+// progress bar
 InertiaProgress.init({
   delay: 0,
   color: '#29d',
