@@ -19,10 +19,15 @@ class RealtorListingController extends Controller
     // ne radi
     $filters = [
       'deleted' => $request->boolean('deleted'),
-      ... $request->only(['by', 'order']) // unpack in array
+      ...$request->only(['by', 'order']) // unpack in array
     ];
 
-    $listings = Auth::user()->listings()->filter($filters)->paginate(6)->withQueryString();
+    $listings = Auth::user()
+      ->listings()
+      ->filter($filters)
+      ->withCount('images')
+      ->paginate(6)
+      ->withQueryString();
 
     return inertia('Realtor/Index', [
       'listings' => $listings,
@@ -57,7 +62,7 @@ class RealtorListingController extends Controller
     );
 
     return redirect()->route('realtor.listing.index')
-    ->with('success', 'Listing was created!');
+      ->with('success', 'Listing was created!');
   }
 
   /**
@@ -104,7 +109,7 @@ class RealtorListingController extends Controller
       ->with('success', 'Listing was deleted!');
   }
 
-  public function restore(Listing $listing) 
+  public function restore(Listing $listing)
   {
     $listing->restore();
 

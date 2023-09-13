@@ -50,6 +50,7 @@ class ListingController extends Controller
 
     // policy second way
     // $this->authorize('view', $listing);
+    $listing->load(['images']);
 
     return inertia(
       'Listing/Show',
@@ -58,6 +59,4 @@ class ListingController extends Controller
       ]
     );
   }
-
-
 }
