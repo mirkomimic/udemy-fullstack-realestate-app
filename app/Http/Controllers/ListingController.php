@@ -22,8 +22,12 @@ class ListingController extends Controller
     $filters = $request->only([
       'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
     ]);
-    $listings = Listing::query()->filter($filters)
-      ->latest()->paginate(9)->withQueryString();
+    $listings = Listing::query()
+      ->filter($filters)
+      ->latest()
+      ->withoutSold()
+      ->paginate(9)
+      ->withQueryString();
 
     return inertia(
       'Listing/Index',
@@ -51,11 +55,13 @@ class ListingController extends Controller
     // policy second way
     // $this->authorize('view', $listing);
     $listing->load(['images']);
+    $offer = !Auth::user() ? null : $listing->offers()->byMe()->first();
 
     return inertia(
       'Listing/Show',
       [
         'listing' => $listing,
+        'offerMade' => $offer
       ]
     );
   }

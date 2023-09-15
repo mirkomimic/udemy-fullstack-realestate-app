@@ -28,14 +28,14 @@
           <input 
             v-model.number="interestRate" 
             type="range" min="0.1" max="30" step="0.1" 
-            class="w-full h4 bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700"
+            class="w-full h-4 bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700"
           >
 
           <label for="" class="label">Duration ({{ duration }} years)</label>
           <input 
             v-model.number="duration"
             type="range" min="3" max="35" step="1" 
-            class="w-full h4 bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700"
+            class="w-full h-4 bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700"
           >
 
           <div class="text-gray-600 dark:text-gray-300 mt-2">
@@ -65,6 +65,14 @@
           </div>
         </div>
       </Box>
+
+      <MakeOffer
+        v-if="user && !offerMade"
+        @offer-updated="offer = $event"
+        :listing-id="listing.id"
+        :price="listing.price" 
+      />
+      <OfferMade v-if="user && offerMade" :offer="offerMade"/>
     </div>
   </div>
 </template>
@@ -74,15 +82,25 @@ import ListingAddress from '@/Components/ListingAddress.vue';
 import Price from '@/Components/Price.vue';
 import ListingSpace from '@/Components/ListingSpace.vue';
 import Box from '@/Components/UI/Box.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
+import MakeOffer from '@/Pages/Listing/Show/Components/MakeOffer.vue';
+import { usePage } from '@inertiajs/vue3';
+import OfferMade from '@/Pages/Listing/Show/Components/OfferMade.vue';
 
 const interestRate = ref(2.5);
 const duration = ref(25);
 
 const props = defineProps({
   listing: Object,
+  offerMade: Object
 })
 
-const { monthlyPayment, totalPaid, totalInterest } = useMonthlyPayment(props.listing.price, interestRate, duration)
+const offer = ref(props.listing.price);
+
+const { monthlyPayment, totalPaid, totalInterest } = useMonthlyPayment(offer, interestRate, duration)
+
+const page = usePage();
+const user = computed(() => page.props.user);
+
 </script>

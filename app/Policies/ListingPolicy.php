@@ -9,13 +9,13 @@ use Illuminate\Auth\Access\Response;
 class ListingPolicy
 {
   // runs before rules
-  public function before(?User $user, $ability) 
+  public function before(?User $user, $ability)
   {
     // exceptions on rules
     // $user? checks if user is not null
     if ($user?->is_admin) {
       return true;
-    }  
+    }
 
     // if ($user->is_admin && $ability == 'update') {
     //   return true;
@@ -35,7 +35,10 @@ class ListingPolicy
    */
   public function view(?User $user, Listing $listing): bool
   {
-    return true;
+    if ($listing->user_id == $user?->id) {
+      return true;
+    }
+    return $listing->sold_at == null;
   }
 
   /**
@@ -51,7 +54,7 @@ class ListingPolicy
    */
   public function update(User $user, Listing $listing): bool
   {
-    return $user->id == $listing->user_id;
+    return $listing->sold_at == null && ($user->id == $listing->user_id);
   }
 
   /**
