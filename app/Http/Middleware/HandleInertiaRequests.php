@@ -36,6 +36,9 @@ class HandleInertiaRequests extends Middleware
    */
   public function share(Request $request): array
   {
+    // second way will run a COUNT query in the database without fetching notifications first. more efficient
+    // $request->user()->unreadNotifications->count()
+    // $request->user()->unreadNotifications()->count()
     return array_merge(parent::share($request), [
       'flash' => [
         'success' => $request->session()->get('success')
@@ -44,6 +47,7 @@ class HandleInertiaRequests extends Middleware
         'id' => $request->user()->id,
         'name' => $request->user()->name,
         'email' => $request->user()->email,
+        'notificationCount' => $request->user()->unreadNotifications()->count(),
       ] : null
     ]);
   }
