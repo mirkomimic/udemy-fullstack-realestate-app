@@ -37,6 +37,7 @@ class NotificationPolicy
    */
   public function update(User $user, DatabaseNotification $databaseNotification): bool
   {
+    // promeniti DatabaseNotification namespace
     return $user->id == $databaseNotification->notifiable_id;
   }
 

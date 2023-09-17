@@ -16,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
    * @var array<class-string, class-string>
    */
   protected $policies = [
+    // https://laravel.com/docs/10.x/authorization#creating-policies
     DatabaseNotification::class => NotificationPolicy::class
   ];
 
